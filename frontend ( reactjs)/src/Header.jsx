@@ -1,4 +1,22 @@
+import { useEffect, useState } from "react";
+import { getAuthToken, logout } from "./helpers/axios_helper";
+import { jwtDecode } from "jwt-decode";
+
+
+
+
 function Header() {
+    const [token, setToken] = useState('null');
+    useEffect(() => {
+        if (getAuthToken() !== "undefined") {
+            setToken(getAuthToken() ? (jwtDecode(getAuthToken())) : null);
+        }
+        else {
+            setToken(null);
+        }
+
+    }, []);
+
     return (
         <>
             <header>
@@ -35,9 +53,15 @@ function Header() {
                                     </ul>
                                 </li>
                             </ul>
-                            <a className="nav-link text-light my-1" aria-current="page" href="#">Your account </a>
+                            {token !== null ? (
+                                <>
+                                    <a className="nav-link text-light my-1" aria-current="page" href="#">{token.sub}</a>
+                                    <a href="#" className="btn btn-danger" onClick={logout} /* onClick={logout()} */>Logout</a>
+                                </>
+                            ) : (
+                                <a href="/login" className="btn btn-success">Sign in</a>
+                            )}
 
-                            <a href="#" className="btn btn-danger">Logout</a>
                         </div>
                     </div>
                 </nav>

@@ -21,6 +21,11 @@ public class User {
     @Column
     private int phone;
 
+    @Column(nullable = true)
+    private String roles;
+
+
+
     @Column
     @Enumerated(EnumType.ORDINAL)
     private UserType userType;
@@ -86,14 +91,24 @@ public class User {
         this.userType = userType;
     }
 
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
     @Override
-    public String toString() {
+    public String
+    toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phone=" + phone +
+                ", roles='" + roles + '\'' +
                 ", userType=" + userType +
                 '}';
     }
