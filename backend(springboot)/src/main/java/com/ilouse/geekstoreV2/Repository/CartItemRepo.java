@@ -1,6 +1,9 @@
 package com.ilouse.geekstoreV2.Repository;
 
-import com.ilouse.geekstoreV2.Model.Cart;
+
+
+
+import com.ilouse.geekstoreV2.Model.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,14 +12,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface CartRepo extends JpaRepository<Cart, Long> {
-    // Additional custom queries can be added here if needed
-    @Modifying
+public interface CartItemRepo extends JpaRepository<CartItem, Long> {
     @Transactional
-    @Query("delete from Cart c where c.client.id = :userId")
-    void emptyCartByUserId(@Param("userId") Long userId);
-
-    @Query("from Cart c where c.client.id = :userId")
-    Cart getCartByUserId(@Param("userId") Long userId);
+    @Modifying
+    @Query("DELETE FROM CartItem c WHERE c.id = :id")
+    void deleteCartItemById(@Param("id") Long id);
 
 }
+

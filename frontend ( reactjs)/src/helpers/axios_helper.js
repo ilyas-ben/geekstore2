@@ -34,22 +34,10 @@ export const logout = () => {
         "hideMethod": "fadeOut"
     }
 }
-
+/// axios helper.js
 axios.defaults.baseURL = 'http://localhost:8080';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-// Add a response interceptor
-/* axios.interceptors.response.use(
-    response => response,
-    error => {
-        if (error.response && error.response.status === 401) {
-            // Redirect to login page with error parameter
-            alert("oui, response " + response.);
-            l
-        }
-        return Promise.reject(error);
-    }
-); */
 
 export const request = async (method, url, data) => {
     let headers = {};

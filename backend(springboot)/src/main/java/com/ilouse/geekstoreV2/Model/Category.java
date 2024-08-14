@@ -2,6 +2,8 @@ package com.ilouse.geekstoreV2.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.ToString;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -16,6 +18,7 @@ public class Category {
     private String name;
 
     @JsonIgnore
+    @ToString.Exclude
     @OneToMany(
             mappedBy = "category",
             fetch = FetchType.LAZY,
@@ -64,7 +67,6 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", products=" + products +
                 '}';
     }
 }

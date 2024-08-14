@@ -1,6 +1,7 @@
 package com.ilouse.geekstoreV2.Configuration.jwt;
 
 import com.ilouse.geekstoreV2.Configuration.jwt.JwtUtils;
+import com.ilouse.geekstoreV2.Model.User;
 import com.ilouse.geekstoreV2.Service.User.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -31,9 +32,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
+//                String username = jwtUtils.getUserNameFromJwtToken(jwt);
+                Long userId = jwtUtils.getUserIdFromJwtToken(jwt);
+                System.out.println(userId);
+                User user = userService.getUserById(userId);
 
-                UserDetails userDetails = userService.loadUserByUsername(username);
+                UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
+
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);

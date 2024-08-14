@@ -15,21 +15,18 @@ public class Cart {
     @OneToOne
     private User client;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "cartProducts",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name="product_id")
-    )
-    private List<Product> products;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<CartItem> cartItems;
+    
 
     public Cart() {
     }
 
-    public Cart(Long id, User client, List<Product> products) {
+
+    public Cart(Long id, User client, List<CartItem> cartItems) {
         this.id = id;
         this.client = client;
-        this.products = products;
+        this.cartItems = cartItems;
     }
 
     public Long getId() {
@@ -48,12 +45,12 @@ public class Cart {
         this.client = client;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<CartItem> getCartItems() {
+        return cartItems;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
     @Override
@@ -61,7 +58,7 @@ public class Cart {
         return "Cart{" +
                 "id=" + id +
                 ", client=" + client +
-                ", products=" + products +
+                ", cartItems=" + cartItems +
                 '}';
     }
 }

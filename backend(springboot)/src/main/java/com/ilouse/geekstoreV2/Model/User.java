@@ -1,5 +1,6 @@
 package com.ilouse.geekstoreV2.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ilouse.geekstoreV2.enumm.UserType;
 import jakarta.persistence.*;
 
@@ -24,24 +25,18 @@ public class User {
     @Column(nullable = true)
     private String roles;
 
-
-
     @Column
     @Enumerated(EnumType.ORDINAL)
     private UserType userType;
 
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Cart cart;
+
     public User() {
     }
-
-    public User(Long id, String username, String email, String password, int phone, UserType userType) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.userType = userType;
-    }
-
 
     public Long getId() {
         return id;
@@ -99,9 +94,16 @@ public class User {
         this.roles = roles;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
     @Override
-    public String
-    toString() {
+    public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +

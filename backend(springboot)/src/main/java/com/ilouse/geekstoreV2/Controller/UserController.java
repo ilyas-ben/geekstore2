@@ -4,15 +4,18 @@ import com.ilouse.geekstoreV2.Model.User;
 import com.ilouse.geekstoreV2.Service.User.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/users")
@@ -51,17 +54,5 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/session")
-    public void getss(HttpServletResponse response) throws IOException {
-    User user = userService.getCurrentUser();
-        response.setContentType("text/plain");
-        PrintWriter writer = response.getWriter();
-        writer.println("session : " + user);
-    }
-
-    @GetMapping("/loginPage")
-    public String login(){
-        return "login";
-    }
 
 }

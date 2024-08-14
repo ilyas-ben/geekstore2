@@ -58,21 +58,25 @@ public class UserServiceImpl implements UserService  {
 
     @Override
     public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+       /* Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             // Retrieve the username
             String username = authentication.getName();
             User user = userRepository.findByUsername(username);
             return user;
-        }
+        }*/
         return  null;
+    }
+
+    @Override
+    public User getUserByUsernme(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
       //  return
-        User user =userRepository.findByUsername(username);
-        System.out.println(username);
+        User user = getUserByUsernme(username);
         if(user==null) throw new UsernameNotFoundException(username);
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
