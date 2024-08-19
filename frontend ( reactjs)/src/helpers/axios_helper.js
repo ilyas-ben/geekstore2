@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 
+//export const addProductToCart 
+
 export const getAuthToken = () => {
     return localStorage.getItem('auth_token');
 };

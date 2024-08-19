@@ -87,7 +87,6 @@ public class CartServiceImpl implements CartService {
                     if (cartItem.getProduct().getId() == productId) {
                         cartItem.setQuantity(quantity);
                         if (quantity == 0) {
-                            System.out.println("it should be deleted");
                             cart.getCartItems().remove(cartItem);
                         }
                         productExists = true;
@@ -112,7 +111,43 @@ public class CartServiceImpl implements CartService {
         saveCart(cart);
     }
 
+    @Override
+    public Boolean addProductToCart(Long productId, Long userId) {
+        Cart cart = getCartByUserId(userId);
+        if(isProductInCart(productId,cart)){
+            return false;
+        }
+        setProductQuantityInCartByUserId(productId,1,userId);
+        return true;
+    }
 
+    @Override
+    public boolean isProductInCart(Long productId, Cart cart) {
+        if (cart == null || cart.getCartItems() == null) {
+            throw new NullPointerException();
+        }
+
+        return cart.getCartItems().stream()
+                .anyMatch(cartItem -> cartItem.getProduct().getId().equals(productId));
+    }
+
+
+
+    @Override
+    public void incrementProductQuantityInCartByUserIdAndProductId(Long productId, Long userId) {
+        Cart cart = getCartByUserId(userId);
+        CartItem cartItem = getCartItemByProductIdFromCart(productId, cart);
+        if(cartItem!=null) {
+            cartItem.setQuantity(cartItem.getQuantity() +1);
+            saveCart(cart);
+        }
+        else setProductQuantityInCartByUserId(productId,1,userId);
+    }
+
+
+    private CartItem getCartItemByProductIdFromCart(Long productId, Cart cart) {
+        return null;
+    }
 
 
 }

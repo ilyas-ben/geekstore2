@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { request } from "../helpers/axios_helper";
+import { addProductToCart } from "../helpers/cart";
 
 
 
@@ -32,7 +33,7 @@ function ProductsList(props) {
                                 <p className="card-text"><strong>Price: ${product.price}</strong></p>
                                 {/* Additional fields as needed */}
                                 <a href="#" className="btn btn-secondary" >View Details</a>
-                                <a href="#" className="btn btn-primary">Add to Cart</a>
+                                <a href="#" className="btn btn-primary" onClick={() => addProductToCart(product.id)}>Add to Cart</a>
                             </div>
                         </div>
                     </div>

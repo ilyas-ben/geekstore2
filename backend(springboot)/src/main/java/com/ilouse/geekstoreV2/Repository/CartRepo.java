@@ -12,11 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 public interface CartRepo extends JpaRepository<Cart, Long> {
     // Additional custom queries can be added here if needed
     @Modifying
-    @Transactional
-    @Query("delete from Cart c where c.client.id = :userId")
+    @Transactional //
+    @Query("delete from CartItem ci where ci.cart.client.id = :userId")
     void emptyCartByUserId(@Param("userId") Long userId);
 
     @Query("from Cart c where c.client.id = :userId")
     Cart getCartByUserId(@Param("userId") Long userId);
-
 }

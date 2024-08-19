@@ -39,3 +39,19 @@ function App() {
 }
 
 export default App;
+
+
+/* 
+
+useEffect(() => {
+    console.log('useEffect s\'exécute après chaque rendu.');
+});
+
+
+useEffect(() => {
+    console.log('useEffect s\'exécute une seule fois, après le premier rendu.');
+}, []);
+
+
+
+ */
