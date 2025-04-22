@@ -43,7 +43,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 export const request = async (method, url, data) => {
     let headers = {};
-    if (getAuthToken() !== null && getAuthToken() !== "null") {
+    if (getAuthToken() !== null && getAuthToken() !== "null") { 
 
         headers = { 'Authorization': `Bearer ${getAuthToken()}`, 'Content-Type': 'application/json' };
     }

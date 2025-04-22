@@ -36,14 +36,7 @@ public class SecurityConfiguration {
             registry.requestMatchers("/admin").hasRole("admin")
                     .requestMatchers("/signin").permitAll()
                     .anyRequest().authenticated();
-        })/*.formLogin(httpSecurityFormLoginConfigurer -> {
-                    httpSecurityFormLoginConfigurer.loginPage("/login")
-                            .permitAll()
-                            .successHandler((request, response, authentication) -> {
-                        response.sendRedirect("/home  ");
-                    });
-                })*/
-                .build();
+        }).build();
 
     }
 
