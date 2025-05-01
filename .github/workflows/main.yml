@@ -2,7 +2,7 @@ name: Full-Stack CI with Maven and React
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
   build:
