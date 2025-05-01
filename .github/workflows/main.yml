@@ -2,43 +2,43 @@ name: Full-Stack CI with Maven and React
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: maven
 
-    - name: Build Backend with Maven
-      working-directory: ./backend
-      run: mvn -B package --file pom.xml -Ptest  # Activate the test profile
+      - name: Build Backend with Maven
+        working-directory: ./backend
+        run: mvn -B package --file pom.xml
 
-    - name: Run Backend Tests
-      working-directory: ./backend
-      run: mvn test -Ptest  # Activate the test profile
+      - name: Run Backend Tests
+        working-directory: ./backend
+        run: mvn test
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
 
-    - name: Install Frontend Dependencies
-      working-directory: ./frontend
-      run: npm install
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm install --force
 
-    - name: Build Frontend
-      working-directory: ./frontend
-      run: npm run build
+      - name: Build Frontend
+        working-directory: ./frontend
+        run: npm run build
 
     # Optional: Deploy step
     # - name: Deploy Application
