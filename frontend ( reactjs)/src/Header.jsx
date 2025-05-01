@@ -1,22 +1,49 @@
 import { useEffect, useState } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  Box,
+  Badge,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Avatar,
+  Divider,
+  Fade,
+} from "@mui/material";
+import {
+  ShoppingCart,
+  Menu as MenuIcon,
+  Logout,
+  Login,
+  Home,
+  Category,
+  Info,
+} from "@mui/icons-material";
 import { getAuthToken, logout } from "./helpers/axios_helper";
 import { jwtDecode } from "jwt-decode";
 import { getCurrentUsersCart } from "./helpers/cart";
-// Corrected the import
 
-function Header() {
-  const [token, setToken] = useState(null); // Changed default to `null`
+export default function Header() {
+  const [token, setToken] = useState(null);
   const [cartItems, setCartItems] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     const tokenFromStorage = getAuthToken();
-    if (tokenFromStorage !== "undefined" && tokenFromStorage) {
+    if (tokenFromStorage && tokenFromStorage !== "undefined") {
       setToken(jwtDecode(tokenFromStorage));
     } else {
       setToken(null);
     }
-  }, []); // Empty dependency array ensures this runs only once on mount
-  
+  }, []);
 
   const fetchCart = async () => {
     const cartData = await getCurrentUsersCart();
@@ -25,164 +52,189 @@ function Header() {
     }
   };
 
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  const toggleDrawer = (open) => () => {
+    setDrawerOpen(open);
+    fetchCart();
+  };
+
   return (
     <>
-      <header>
-        <nav
-          className="navbar navbar-expand-lg bg-primary"
-          data-bs-theme="dark"
-        >
-          <div className="container-fluid">
-            <a className="navbar-brand" href="/">
-              ILOUSE.MA
-            </a>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarText"
-              aria-controls="navbarText"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
+      <AppBar
+        position="static"
+        elevation={4}
+        sx={{ backgroundColor: "#1565c0" }}
+      >
+        <Toolbar>
+          <Typography
+            variant="h5"
+            component="a"
+            href="/"
+            sx={{
+              textDecoration: "none",
+              color: "inherit",
+              fontWeight: 600,
+              flexGrow: 1,
+            }}
+          >
+            ILOUSE.MA
+          </Typography>
+
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              gap: 3,
+              alignItems: "center",
+            }}
+          >
+            <Button
+              color="inherit"
+              href="/"
+              startIcon={<Home />}
+              sx={{ fontWeight: 500 }}
             >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarText">
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="/">
-                    Home
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/categories">
-                    Categories
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    data-bs-toggle="modal"
-                    data-bs-target="#cartModal"
-                    href="#"
-                    onClick={fetchCart} // Fetch cart items when the "Cart" link is clicked
+              Home
+            </Button>
+            <Button
+              color="inherit"
+              href="/categories"
+              startIcon={<Category />}
+              sx={{ fontWeight: 500 }}
+            >
+              Categories
+            </Button>
+            <Button
+              color="inherit"
+              href="/aboutme"
+              startIcon={<Info />}
+              sx={{ fontWeight: 500 }}
+            >
+              About Me
+            </Button>
+            <IconButton color="inherit" onClick={toggleDrawer(true)}>
+              <Badge badgeContent={cartItems.length} color="error">
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+            {token ? (
+              <>
+                <IconButton
+                  color="inherit"
+                  onClick={handleMenuOpen}
+                  sx={{ ml: 1 }}
+                >
+                  <Avatar sx={{ bgcolor: "#0d47a1" }}>
+                    {token.sub.charAt(0).toUpperCase()}
+                  </Avatar>
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                  TransitionComponent={Fade}
+                >
+                  <MenuItem disabled>{token.sub}</MenuItem>
+                  <Divider />
+                  <MenuItem
+                    onClick={() => {
+                      logout();
+                      handleMenuClose();
+                    }}
                   >
-                    Cart
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/aboutme">
-                    About me
-                  </a>
-                </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Dropdown link
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+                    <Logout fontSize="small" sx={{ mr: 1 }} /> Logout
+                  </MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <Button
+                color="inherit"
+                href="/login"
+                startIcon={<Login />}
+                sx={{ fontWeight: 500 }}
+              >
+                Sign In
+              </Button>
+            )}
+          </Box>
+
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <IconButton color="inherit" onClick={handleMenuOpen}>
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              TransitionComponent={Fade}
+            >
+              <MenuItem component="a" href="/">
+                Home
+              </MenuItem>
+              <MenuItem component="a" href="/categories">
+                Categories
+              </MenuItem>
+              <MenuItem component="a" href="/aboutme">
+                About Me
+              </MenuItem>
+              <MenuItem onClick={toggleDrawer(true)}>
+                Cart ({cartItems.length})
+              </MenuItem>
               {token ? (
                 <>
-                  <a
-                    className="nav-link text-light my-1"
-                    aria-current="page"
-                    href="#"
+                  <Divider />
+                  <MenuItem disabled>{token.sub}</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      logout();
+                      handleMenuClose();
+                    }}
                   >
-                    {token.sub}
-                  </a>
-                  <a href="#" className="btn btn-danger" onClick={logout}>
                     Logout
-                  </a>
+                  </MenuItem>
                 </>
               ) : (
-                <a href="/login" className="btn btn-success">
-                  Sign in
-                </a>
+                <MenuItem component="a" href="/login">
+                  Sign In
+                </MenuItem>
               )}
-            </div>
-          </div>
-        </nav>
-      </header>
+            </Menu>
+          </Box>
+        </Toolbar>
+      </AppBar>
 
-      <div
-        className="modal fade"
-        id="cartModal"
-        tabIndex="-1"
-        aria-labelledby="cartModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="cartModalLabel">
-                Shopping Cart
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <ul className="list-group">
-                {cartItems.length > 0 ? (
-                  cartItems.map((item, index) => (
-                    <li
-                      key={index}
-                      className="list-group-item d-flex justify-content-between align-items-center"
-                    >
-                      {item.quantity} x {item.product.name}
-                      <span className="badge bg-primary rounded-pill">
-                        USD{item.product.price * item.quantity}
-                      </span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="list-group-item">Your cart is empty.</li>
-                )}
-              </ul>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" className="btn btn-primary">
-                Checkout
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+        <Box sx={{ width: 320, p: 2 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Shopping Cart
+          </Typography>
+          <Divider />
+          <List>
+            {cartItems.length > 0 ? (
+              cartItems.map((item, index) => (
+                <ListItem key={index} divider>
+                  <ListItemText
+                    primary={`${item.quantity} × ${item.product.name}`}
+                    secondary={`USD ${item.product.price * item.quantity}`}
+                  />
+                </ListItem>
+              ))
+            ) : (
+              <ListItem>
+                <ListItemText primary="Your cart is empty." />
+              </ListItem>
+            )}
+          </List>
+          <Divider sx={{ my: 2 }} />
+          <Button variant="contained" color="primary" fullWidth>
+            Checkout
+          </Button>
+        </Box>
+      </Drawer>
     </>
   );
 }
-
-export default Header;

@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./Header";
 
 import Home from "./Home";
@@ -17,6 +12,7 @@ import ProductsList from "./products/ProductsList";
 import AuthProvider from "./components/security/AuthContext";
 import HeaderComponent from "./components/Header/HeaderComponent";
 import FooterComponent from "./components/Footer/FooterComponent";
+import { Container } from "@mui/material";
 
 function App() {
   const logout = async () => {
@@ -26,21 +22,22 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <HeaderComponent />
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<ProductsList />} />
-          <Route path="/products/add" element={<AddProductForm />} />
-          <Route
-            path="/products/bycategory/:categoryId"
-            element={<ProductsByCategory />}
-          />
-          <Route path="/categories" element={<CategoryList />} />
-          <Route path="/aboutme" element={<AboutUsPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/logout"> {logout} </Route>
-        </Routes>
+        <Container>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<ProductsList />} />
+            <Route path="/products/add" element={<AddProductForm />} />
+            <Route
+              path="/products/bycategory/:categoryId"
+              element={<ProductsByCategory />}
+            />
+            <Route path="/categories" element={<CategoryList />} />
+            <Route path="/aboutme" element={<AboutUsPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout"> {logout} </Route>
+          </Routes>
+        </Container>
         <FooterComponent />
       </BrowserRouter>
     </AuthProvider>
