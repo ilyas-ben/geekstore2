@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ilouse</groupId>
-	<artifactId>geekstoreV2</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>GeekStore</name>
+	<artifactId>geekstore</artifactId>
+	<version>0.0.1</version>
+	<name>Geekstore</name>
 	<description>e commerce by Ilyas Benchekroun</description>
 	<url/>
 	<licenses>
