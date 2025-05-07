@@ -1,3 +1,11 @@
+insert into geekstore.user (id, email, password, phone, roles, user_type, username, cart_id)
+values  (1, 'ali.benbrahim@example.com', 'password1', 123456, 'USER', 1, 'Ali Benbrahim', null),
+        (2, 'sara.elalami@example.com', 'password2', 234567, 'ADMIN', 2, 'Sara Elalami', null),
+        (3, 'omar.nassiri@example.com', 'password3', 345678, 'USER', 1, 'Omar Nassiri', null),
+        (4, 'fatima.bennani@example.com', 'password4', 456789, 'MODERATOR', 3, 'Fatima Bennani', null),
+        (5, 'hassan.mahfoud@example.com', 'password5', 567890, 'USER', 1, 'Hassan Mahfoud', null);
+
+
 INSERT INTO geekstore.category (id, name)
 VALUES (11, 'Electronics'),
        (12, 'Books'),

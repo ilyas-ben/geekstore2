@@ -37,7 +37,7 @@ export const logout = () => {
     }
 }
 /// axios helper.js
-axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.baseURL = 'http://localhost:5000';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 
