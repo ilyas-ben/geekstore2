@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { request } from "../helpers/axios_helper";
+import { useEffect, useState } from "react";
+import { request } from "../../helpers/axios_helper";
 
 function CategoryList() {
   const [categories, setCategories] = useState([]);
@@ -13,7 +13,6 @@ function CategoryList() {
         console.error(error);
       }
     };
-
     fetchCategories();
   }, []);
 

@@ -29,8 +29,6 @@ public class User {
     @Enumerated(EnumType.ORDINAL)
     private UserType userType;
 
-
-
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Cart cart;

@@ -57,14 +57,21 @@ export const request = async (method, url, data) => {
         });
         return response;
     } catch (error) {
-        console.error(error);
         const status = error.response.status;
+        console.error(error);
         console.log(status);
         if (status === 401) {
             if (location.pathname === "/login") {
                 location.href = '/login?error=2';
             }
             else location.href = '/login?error=1';
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'There\'s a problem with the server',
+                text: 'Please try again later'
+            });
         }
     }
 

@@ -50,6 +50,7 @@ public class JwtConfiguration {
                     registry.requestMatchers("/error").permitAll();
                     registry.requestMatchers("/products/**").permitAll();
                     registry.requestMatchers("/categories").permitAll();
+                    
                     registry.anyRequest().authenticated();
                 })
                 .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

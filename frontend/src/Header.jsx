@@ -1,33 +1,34 @@
-import { useEffect, useState } from "react";
+import {
+  Category,
+  Home,
+  Login,
+  Logout,
+  Menu as MenuIcon,
+  Search as SearchIcon,
+  ShoppingCart,
+} from "@mui/icons-material";
 import {
   AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  Box,
+  Avatar,
   Badge,
+  Box,
+  Button,
+  Divider,
   Drawer,
+  Fade,
+  IconButton,
   List,
   ListItem,
   ListItemText,
-  Avatar,
-  Divider,
-  Fade,
+  Menu,
+  MenuItem,
+  TextField,
+  Toolbar,
+  Typography,
 } from "@mui/material";
-import {
-  ShoppingCart,
-  Menu as MenuIcon,
-  Logout,
-  Login,
-  Home,
-  Category,
-  Info,
-} from "@mui/icons-material";
-import { getAuthToken, logout } from "./helpers/axios_helper";
 import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
+import { getAuthToken, logout } from "./helpers/axios_helper";
 import { getCurrentUsersCart } from "./helpers/cart";
 
 export default function Header() {
@@ -35,6 +36,7 @@ export default function Header() {
   const [cartItems, setCartItems] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     const tokenFromStorage = getAuthToken();
@@ -63,6 +65,10 @@ export default function Header() {
     fetchCart();
   };
 
+  const toogleSearch = (open) => () => {
+    setSearchOpen(open);
+  };
+
   return (
     <>
       <AppBar
@@ -82,7 +88,7 @@ export default function Header() {
               flexGrow: 1,
             }}
           >
-            ILOUSE.MA
+            GeekStore
           </Typography>
 
           <Box
@@ -108,13 +114,9 @@ export default function Header() {
             >
               Categories
             </Button>
-            <Button
-              color="inherit"
-              href="/aboutme"
-              startIcon={<Info />}
-              sx={{ fontWeight: 500 }}
-            >
-              About Me
+            <Button color="inherit" onClick={toogleSearch(true)}>
+              <SearchIcon fontSize="small" sx={{ mr: 1 }} />
+              Search a Product
             </Button>
             <IconButton color="inherit" onClick={toggleDrawer(true)}>
               <Badge badgeContent={cartItems.length} color="error">
@@ -206,6 +208,16 @@ export default function Header() {
           </Box>
         </Toolbar>
       </AppBar>
+
+      <Drawer anchor="top" open={searchOpen} onClose={toogleSearch(false)}>
+        <Box sx={{ p: 3 }}>
+          <TextField
+            fullWidth
+            placeholder="Search for a product..."
+            variant="standard"
+          />
+        </Box>
+      </Drawer>
 
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box sx={{ width: 320, p: 2 }}>

@@ -1,18 +1,17 @@
-import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./Header";
 
-import Home from "./Home";
-import AboutUsPage from "./AboutUsPage";
-import Login from "./Login";
-import AddProductForm from "./products/AddProductForm";
-import ProductsByCategory from "./products/ProductsByCategory";
-import CategoryList from "./products/CategoriesList";
-import ProductsList from "./products/ProductsList";
-import AuthProvider from "./components/security/AuthContext";
-import HeaderComponent from "./components/Header/HeaderComponent";
-import FooterComponent from "./components/Footer/FooterComponent";
 import { Container } from "@mui/material";
+import AboutUsPage from "./AboutUsPage";
+import FooterComponent from "./components/Footer/FooterComponent";
+import AuthProvider from "./components/security/AuthContext";
+import Home from "./Home";
+import Login from "./Login";
+import CategoryList from "./components/products/CategoriesList";
+import ProductsByCategory from "./components/products/ProductsByCategory";
+import ProductsList from "./components/products/ProductsList";
+import AddProductForm from "./components/products/AddProductForm";
+import ProductByID from "./components/products/ProductByID";
 
 function App() {
   const logout = async () => {
@@ -25,6 +24,7 @@ function App() {
         <Header />
         <Container>
           <Routes>
+            <Route path="/products/:id" element={<ProductByID />} />
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<ProductsList />} />
             <Route path="/products/add" element={<AddProductForm />} />
